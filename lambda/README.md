@@ -65,3 +65,30 @@ If you want to learn more about building native executables, please consult http
 Easily start your RESTful Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+
+
+# DynameDB
+
+## Run Dynamo Db Locally
+
+```shell script
+docker run --publish 4566:8000 amazon/dynamodb-local:1.19.0 -jar DynamoDBLocal.jar -inMemory -sharedDb
+```
+
+## Dynamo Admin for local instance
+
+Install dynamodb-admin
+
+```shell script
+npm install -g dynamodb-admin
+```
+
+Setup access URL and start dynamodb-admin
+
+
+```shell script
+export DYNAMO_ENDPOINT=http://localhost:4566
+dynamodb-admin
+```
+
+Then access http://localhost:8001
