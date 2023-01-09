@@ -1,5 +1,6 @@
 package airhacks.lambda.greetings.service;
 
+import java.lang.System.Logger.Level;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,9 +13,12 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 
 @ApplicationScoped
 public class FruitSyncService extends AbstractService {
+
+    static System.Logger LOG = System.getLogger(FruitSyncService.class.getName());
 
     private DynamoDbTable<Fruit> fruitTable;
 
@@ -23,9 +27,13 @@ public class FruitSyncService extends AbstractService {
 
     @PostConstruct
     void init() {
-        fruitTable = dynamoEnhancedClient.table(getTableName(),
-                TableSchema.fromClass(Fruit.class));
-        fruitTable.createTable();
+        try {
+            fruitTable = dynamoEnhancedClient.table(getTableName(),
+                    TableSchema.fromClass(Fruit.class));
+            fruitTable.createTable();
+        } catch (ResourceInUseException ex) {
+            LOG.log(Level.WARNING, "Table " + getTableName() + " already exists. Full error is ", ex);
+        }
     }
 
     public List<Fruit> findAll() {

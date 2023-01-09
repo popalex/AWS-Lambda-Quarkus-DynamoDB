@@ -9,13 +9,15 @@ public class Fruit {
 
     private String name;
     private String description;
+    private String url;
 
     public Fruit() {
     }
 
-    public Fruit(String name, String description) {
+    public Fruit(String name, String description, String url) {
         this.name = name;
         this.description = description;
+        this.url = url;
     }
 
     @DynamoDbPartitionKey
@@ -33,5 +35,13 @@ public class Fruit {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

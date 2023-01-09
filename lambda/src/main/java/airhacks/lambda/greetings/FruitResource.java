@@ -23,8 +23,8 @@ public class FruitResource {
 
     @PostConstruct
     void init() {
-        fruitSyncService.add(new Fruit("Apple", "Winter fruit"));
-        fruitSyncService.add(new Fruit("Pineapple", "Tropical fruit"));
+        fruitSyncService.add(new Fruit("Apple", "Winter fruit", null));
+        fruitSyncService.add(new Fruit("Pineapple", "Tropical fruit", "http://www.example.org"));
     }
 
     @GET
