@@ -2,6 +2,7 @@ package airhacks;
 
 import airhacks.alb.boundary.LambdaAlbStack;
 import airhacks.apigateway.boundary.LambdaApiGatewayStack;
+import airhacks.dynamodb.DynamoDBFunctionStack;
 import airhacks.functionurl.boundary.FunctionURLStack;
 import airhacks.lambda.control.QuarkusLambda;
 import software.amazon.awscdk.App;
@@ -31,6 +32,7 @@ public class CDKApp {
 
             var app = new App();
             var appName = "quarkus-lambda";
+            var dynamoDbName = "quarkus-dynamo-demo";
 
             Tags.of(app).add("project", "MicroProfile with Quarkus on AWS Lambda");
             Tags.of(app).add("environment","development");
@@ -38,9 +40,11 @@ public class CDKApp {
 
             var stackProps = createStackProperties();
 
-            new FunctionURLStack(app,appName);
+            // new FunctionURLStack(app,appName);
+            
             //new LambdaApiGatewayStack(app, appName);
             //new LambdaAlbStack(app,appName);
+            new DynamoDBFunctionStack(app, appName, dynamoDbName);
             app.synth();
         }
 }

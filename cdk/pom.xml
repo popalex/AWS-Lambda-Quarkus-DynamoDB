@@ -40,6 +40,18 @@
             <version>2.58.1-alpha.0</version>
         </dependency>
         <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>dynamodb</artifactId>
+            <version>2.5.71</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>software.constructs</groupId>
             <artifactId>constructs</artifactId>
             <version>3.4.169</version>
