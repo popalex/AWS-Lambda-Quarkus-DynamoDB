@@ -3,6 +3,11 @@ package airhacks.lambda.greetings.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+
 import airhacks.lambda.greetings.model.Fruit;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
@@ -14,12 +19,12 @@ public abstract class AbstractService {
     public final static String FRUIT_NAME_COL = "fruitName";
     public final static String FRUIT_DESC_COL = "fruitDescription";
 
-    public String getTableName() {
-        return "QuarkusFruits";
-    }
+    @Inject
+    @ConfigProperty(name="tableName")
+    String tableName;
 
     protected ScanRequest scanRequest() {
-        return ScanRequest.builder().tableName(getTableName())
+        return ScanRequest.builder().tableName(tableName)
                 .attributesToGet(FRUIT_NAME_COL, FRUIT_DESC_COL).build();
     }
 
@@ -29,7 +34,7 @@ public abstract class AbstractService {
         item.put(FRUIT_DESC_COL, AttributeValue.builder().s(fruit.getDescription()).build());
 
         return PutItemRequest.builder()
-                .tableName(getTableName())
+                .tableName(tableName)
                 .item(item)
                 .build();
     }
@@ -39,7 +44,7 @@ public abstract class AbstractService {
         key.put(FRUIT_NAME_COL, AttributeValue.builder().s(name).build());
 
         return GetItemRequest.builder()
-                .tableName(getTableName())
+                .tableName(tableName)
                 .key(key)
                 .attributesToGet(FRUIT_NAME_COL, FRUIT_DESC_COL)
                 .build();

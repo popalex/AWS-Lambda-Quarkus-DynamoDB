@@ -1,10 +1,13 @@
 package airhacks.dynamodb;
 
+import org.jetbrains.annotations.NotNull;
+
 import software.amazon.awscdk.RemovalPolicy;
 import software.amazon.awscdk.services.dynamodb.Attribute;
 import software.amazon.awscdk.services.dynamodb.AttributeType;
 import software.amazon.awscdk.services.dynamodb.BillingMode;
 import software.amazon.awscdk.services.dynamodb.Table;
+import software.amazon.awscdk.services.iam.IGrantable;
 import software.constructs.Construct;
 
 public class DynamoDbTable extends Construct{
@@ -26,6 +29,10 @@ public class DynamoDbTable extends Construct{
 
     public String getTableName() {
         return table.getTableName();
+    }
+
+    public String getTableArn() {
+        return table.getTableArn();
     }
 
 }

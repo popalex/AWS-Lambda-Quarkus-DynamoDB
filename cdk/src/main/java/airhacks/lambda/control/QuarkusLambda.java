@@ -1,7 +1,9 @@
 package airhacks.lambda.control;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import airhacks.functionurl.boundary.FunctionURLStack;
 import software.amazon.awscdk.Duration;
 import software.amazon.awscdk.services.lambda.Architecture;
 import software.amazon.awscdk.services.lambda.CfnFunction;
@@ -22,13 +24,20 @@ public class QuarkusLambda extends Construct {
     static int timeout = 10;
     IFunction function;
 
-    public QuarkusLambda(Construct scope, String functionName){
-        this(scope,functionName,false);
+    public QuarkusLambda(Construct scope, String functionName) {
+        this(scope,functionName,"", false);
     }
 
-    public QuarkusLambda(Construct scope, String functionName, boolean snapStart) {
+    public QuarkusLambda(Construct scope, String functionName, String dynamoDbTableName){
+        this(scope,functionName,dynamoDbTableName, false);
+    }
+
+    public QuarkusLambda(Construct scope, String functionName, String dynamoDbTableName, boolean snapStart) {
         super(scope, "QuarkusLambda");
-        this.function = createFunction(functionName, lambdaHandler, configuration, memory, timeout);
+        var mConfig = new HashMap<String, String>(configuration);
+        mConfig.put("tableName", dynamoDbTableName);
+        
+        this.function = createFunction(functionName, lambdaHandler, mConfig, memory, timeout);
         if (snapStart)
             this.function = setupSnapStart(this.function);
     }

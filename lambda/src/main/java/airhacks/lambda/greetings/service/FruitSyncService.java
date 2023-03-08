@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import airhacks.lambda.greetings.model.Fruit;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -25,14 +27,22 @@ public class FruitSyncService extends AbstractService {
     @Inject
     DynamoDbEnhancedClient dynamoEnhancedClient;
 
+    @Inject
+    @ConfigProperty(name = "enableTableCreate")
+    Boolean enableTableCreate;
+
     @PostConstruct
     void init() {
         try {
-            fruitTable = dynamoEnhancedClient.table(getTableName(),
+            LOG.log(Level.INFO, "Creating dynamoEnhancedClient for table name " + tableName);
+            fruitTable = dynamoEnhancedClient.table(tableName,
                     TableSchema.fromClass(Fruit.class));
-            fruitTable.createTable();
+            if (enableTableCreate) {
+                LOG.log(Level.INFO, "Tring to create table " + tableName);
+                fruitTable.createTable();
+            }
         } catch (ResourceInUseException ex) {
-            LOG.log(Level.WARNING, "Table " + getTableName() + " already exists. Full error is ", ex);
+            LOG.log(Level.WARNING, "Table " + tableName + " already exists. Full error is ", ex);
         }
     }
 
