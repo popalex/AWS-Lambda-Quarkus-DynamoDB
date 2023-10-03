@@ -13,6 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.artifact-id-amazon>quarkus-amazon-services-bom</quarkus.platform.artifact-id-amazon>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.14.3.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
@@ -22,6 +23,13 @@
       <dependency>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+       <dependency>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id-amazon}</artifactId>
         <version>${quarkus.platform.version}</version>
         <type>pom</type>
         <scope>import</scope>
@@ -61,9 +69,14 @@
     <dependency>
         <groupId>io.quarkiverse.amazonservices</groupId>
         <artifactId>quarkus-amazon-dynamodb-enhanced</artifactId>
-        <version>1.5.0</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/io.quarkiverse.amazonservices/quarkus-amazon-cognito-user-pools -->
+    <dependency>
+        <groupId>io.quarkiverse.amazonservices</groupId>
+        <artifactId>quarkus-amazon-cognito-user-pools</artifactId>
+    </dependency>
+    
     <dependency>
         <groupId>software.amazon.awssdk</groupId>
         <artifactId>apache-client</artifactId>
