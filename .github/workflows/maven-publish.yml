@@ -38,11 +38,11 @@ jobs:
           
     - name: Install Python dependencies and CDK
       run: |
-          npm install -g aws-cdk
+          npm install -g -B aws-cdk
           
     - name: 🏛️ building functions
       run: |
-          cd lambda && mvn clean package
+          cd lambda && mvn -B clean package
           
     - name: 🏗️ building CDK
       run: |
