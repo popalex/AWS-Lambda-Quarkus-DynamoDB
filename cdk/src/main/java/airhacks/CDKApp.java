@@ -44,7 +44,7 @@ public class CDKApp {
             
             //new LambdaApiGatewayStack(app, appName);
             //new LambdaAlbStack(app,appName);
-            new DynamoDBFunctionStack(app, appName, dynamoDbName);
+            new DynamoDBFunctionStack(app, appName, dynamoDbName, false, true);
             app.synth();
         }
 }
