@@ -1,3 +1,5 @@
+![badge](https://github.com/popalex/AWS-Lambda-Quarkus-DynamoDB/actions/workflows/maven-publish.yml/badge.svg)
+
 # MicroProfile with Quarkus as AWS Lambda Function deployed with Cloud Development Kit (CDK) v2 for Java
 
 A lean starting point for building, testing and deploying Quarkus MicroProfile applications deployed as AWS Lambda behind API Gateway.
