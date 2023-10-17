@@ -10,6 +10,9 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
+
 import airhacks.lambda.greetings.model.Fruit;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -31,6 +34,15 @@ public class FruitSyncService extends AbstractService {
     @ConfigProperty(name = "enableTableCreate")
     Boolean enableTableCreate;
 
+    @Inject
+    Context context;
+
+    @Inject
+    APIGatewayV2HTTPEvent.RequestContext rc;
+
+    @Inject
+    APIGatewayV2HTTPEvent httpEvent;
+
     @PostConstruct
     void init() {
         try {
@@ -47,6 +59,8 @@ public class FruitSyncService extends AbstractService {
     }
 
     public List<Fruit> findAll() {
+        String username = rc.getAuthorizer().getJwt().getClaims().get("cognito:username");
+        LOG.log(Level.DEBUG, "Username is "+ username);
         return fruitTable.scan().items().stream().collect(Collectors.toList());
     }
 
